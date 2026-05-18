@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaTech — Études et Conception</title>
+<meta name="description" content="Plans techniques, conception 3D et études d'ingénierie professionnels — NovaTech Études et Conception, Istanbul.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2461;--navy2:#1a3285;--blue:#1a56db;--blue2:#2d7df7;
+  --cyan:#0ea5e9;--light:#f4f7fc;--lighter:#f9fbff;--white:#fff;
+  --text:#1e293b;--muted:#64748b;--border:#e2e8f0;--border2:#cbd5e1;
+  --gold:#d97706;--green:#16a34a;
+  --font:'Syne',sans-serif;--body:'DM Sans',sans-serif;
+  --r:4px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);
+  --shadow2:0 8px 30px rgba(15,36,97,.12);--shadow3:0 20px 60px rgba(15,36,97,.16);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--text);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{cursor:pointer}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#f1f5f9}::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
+::selection{background:var(--blue);color:#fff}
+
+/* ════ NAV ═══════════════════════════════════════════════════ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5vw;background:rgba(255,255,255,0.97);
+  border-bottom:1px solid transparent;
+  backdrop-filter:blur(16px);transition:border-color .3s,box-shadow .3s;
+}
+#nav.scrolled{border-color:var(--border);box-shadow:0 2px 16px rgba(15,36,97,.07)}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-mark{
+  width:38px;height:38px;flex-shrink:0;
+  background:linear-gradient(145deg,var(--navy) 0%,var(--blue2) 100%);
+  clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0% 50%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font);font-weight:800;font-size:15px;color:#fff;
+}
+.logo-text{line-height:1.15}
+.logo-name{font-family:var(--font);font-weight:800;font-size:17px;color:var(--navy);letter-spacing:.03em}
+.logo-name em{color:var(--blue2);font-style:normal}
+.logo-sub{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+nav ul{list-style:none;display:flex;gap:30px}
+nav ul a{
+  font-size:13px;font-weight:500;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.05em;
+  transition:color .2s;position:relative;padding-bottom:3px;
+}
+nav ul a::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:1.5px;background:var(--navy);border-radius:1px;
+  transform:scaleX(0);transition:transform .25s;
+}
+nav ul a:hover{color:var(--navy)}
+nav ul a:hover::after{transform:scaleX(1)}
+.nav-cta{
+  padding:10px 22px;background:var(--navy);color:#fff;
+  border-radius:var(--r);font-family:var(--font);font-size:12.5px;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border:none;transition:background .2s,transform .15s;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-cta:hover{background:var(--blue);transform:translateY(-1px)}
+.nav-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
+.burger span{display:block;width:21px;height:2px;background:var(--navy);border-radius:1px;transition:all .3s}
+
+/* ════ HERO ═══════════════════════════════════════════════════ */
+#hero{
+  padding:68px 0 0;min-height:100vh;
+  background:var(--lighter);
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.hero-pattern{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:48px 48px;opacity:.5;
+}
+.hero-glow{
+  position:absolute;top:0;right:0;width:60%;height:100%;
+  background:linear-gradient(135deg,transparent 30%,rgba(26,86,219,.04) 100%);
+  pointer-events:none;
+}
+.hero-inner{
+  max-width:1200px;margin:0 auto;padding:60px 5vw;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 14px;border-radius:100px;margin-bottom:22px;
+  background:rgba(26,86,219,.06);border:1px solid rgba(26,86,219,.15);
+  font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;
+}
+.hero-eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--blue);display:inline-block;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-h1{
+  font-family:var(--font);font-weight:800;
+  font-size:clamp(36px,4.5vw,60px);line-height:1.07;
+  letter-spacing:-.025em;color:var(--navy);margin-bottom:20px;
+}
+.hero-h1 em{color:var(--blue2);font-style:normal}
+.hero-desc{
+  font-size:16px;line-height:1.8;color:var(--muted);
+  margin-bottom:36px;max-width:460px;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.btn-prim{
+  padding:14px 28px;background:var(--navy);color:#fff;border:none;
+  border-radius:var(--r);font-family:var(--font);font-size:13.5px;
+  font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .2s;box-shadow:0 4px 16px rgba(15,36,97,.2);
+}
+.btn-prim:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,86,219,.35)}
+.btn-prim svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+.btn-sec{
+  padding:13px 26px;border:1.5px solid var(--border2);background:var(--white);
+  color:var(--navy);border-radius:var(--r);font-family:var(--font);
+  font-size:13.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;transition:all .2s;
+}
+.btn-sec:hover{border-color:var(--navy);background:var(--lighter)}
+.hero-trust{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+.trust-item svg{width:15px;height:15px;stroke:var(--green);fill:none;stroke-width:2.5;flex-shrink:0}
+.trust-sep{width:1px;height:16px;background:var(--border)}
+
+/* Hero right — stats + preview cards */
+.hero-right{display:flex;flex-direction:column;gap:14px}
+.hero-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.h-stat{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px;box-shadow:var(--shadow);
+}
+.h-stat-num{font-family:var(--font);font-weight:800;font-size:30px;color:var(--navy);line-height:1}
+.h-stat-num em{font-size:18px;color:var(--blue2);font-style:normal}
+.h-stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.hero-preview-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden;display:flex;align-items:center;gap:0;
+}
+.hpc-img{width:90px;height:70px;flex-shrink:0;background:linear-gradient(135deg,var(--navy),var(--navy2));display:flex;align-items:center;justify-content:center}
+.hpc-img svg{width:32px;height:32px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:1.3}
+.hpc-body{padding:12px 16px;flex:1;overflow:hidden}
+.hpc-cat{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:2px}
+.hpc-title{font-family:var(--font);font-weight:700;font-size:13px;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hpc-price{font-size:13px;font-weight:600;color:var(--green)}
+
+/* ════ SECTION BASE ═══════════════════════════════════════════ */
+.section{padding:96px 5vw;max-width:1200px;margin:0 auto}
+.section-full{padding:96px 5vw}
+.section-full .section-inner{max-width:1200px;margin:0 auto}
+.s-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--blue);margin-bottom:12px;
+}
+.s-eyebrow::before{content:'';width:24px;height:2px;background:var(--blue);border-radius:1px}
+.s-title{
+  font-family:var(--font);font-weight:800;
+  font-size:clamp(26px,3.2vw,44px);line-height:1.1;
+  letter-spacing:-.02em;color:var(--navy);margin-bottom:12px;
+}
+.s-title em{color:var(--blue2);font-style:normal}
+.s-sub{font-size:15.5px;color:var(--muted);line-height:1.75;max-width:520px}
+.section-alt{background:var(--light)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.on{opacity:1;transform:none}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}
+
+/* ════ ABOUT ══════════════════════════════════════════════════ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-top:60px}
+.about-img{
+  position:relative;border-radius:8px;overflow:hidden;
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  aspect-ratio:4/3;box-shadow:var(--shadow3);
+  display:flex;align-items:center;justify-content:center;
+}
+.about-img svg{width:55%;opacity:.6}
+.about-img-badge{
+  position:absolute;bottom:-16px;right:-16px;
+  background:var(--blue);color:#fff;border-radius:var(--r);
+  padding:16px 20px;box-shadow:0 8px 28px rgba(26,86,219,.4);
+  text-align:center;
+}
+.about-img-badge strong{display:block;font-family:var(--font);font-weight:800;font-size:28px;line-height:1}
+.about-img-badge span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.about-corner{position:absolute;top:-12px;left:-12px;width:52px;height:52px;border:2.5px solid var(--border2);border-right:none;border-bottom:none;border-radius:2px}
+.about-text p{font-size:15.5px;color:var(--muted);line-height:1.85;margin-bottom:20px}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.checklist li{display:flex;align-items:flex-start;gap:12px;font-size:14.5px}
+.chk-icon{width:20px;height:20px;flex-shrink:0;border-radius:50%;background:rgba(22,163,74,.1);border:1.5px solid rgba(22,163,74,.3);display:flex;align-items:center;justify-content:center;margin-top:2px}
+.chk-icon svg{width:10px;height:10px;stroke:var(--green);fill:none;stroke-width:3}
+.chk-text strong{display:block;color:var(--navy);font-weight:600;margin-bottom:1px}
+.chk-text span{font-size:13px;color:var(--muted)}
+
+/* ════ SERVICES ═══════════════════════════════════════════════ */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:48px}
+.svc-card{background:var(--white);padding:32px 26px;position:relative;overflow:hidden;transition:background .2s}
+.svc-card:hover{background:var(--lighter)}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.svc-card:hover::before{transform:scaleX(1)}
+.svc-n{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--blue);margin-bottom:18px}
+.svc-ico{width:46px;height:46px;border-radius:var(--r);background:rgba(26,86,219,.06);border:1px solid rgba(26,86,219,.12);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.svc-ico svg{width:22px;height:22px;stroke:var(--blue);fill:none;stroke-width:1.8}
+.svc-card h3{font-family:var(--font);font-weight:700;font-size:16px;color:var(--navy);margin-bottom:8px}
+.svc-card p{font-size:13.5px;color:var(--muted);line-height:1.7}
+
+/* ════ RÉALISATIONS ═══════════════════════════════════════════ */
+.real-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:20px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.flt{
+  padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);
+  background:var(--white);font-family:var(--body);font-size:12.5px;font-weight:500;
+  color:var(--muted);transition:all .18s;letter-spacing:.02em;
+}
+.flt:hover{border-color:var(--blue);color:var(--blue)}
+.flt.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.flt .n{margin-left:5px;font-size:10px;opacity:.8}
+
+/* Project grid */
+.proj-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.proj-card{
+  background:var(--white);border:1px solid var(--border);border-radius:8px;
+  overflow:hidden;transition:transform .25s,box-shadow .25s;
+  display:flex;flex-direction:column;
+}
+.proj-card:hover{transform:translateY(-4px);box-shadow:var(--shadow3)}
+.proj-img{
+  aspect-ratio:4/3;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+}
+.proj-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.proj-card:hover .proj-img img{transform:scale(1.06)}
+.proj-img-empty{
+  width:100%;height:100%;display:flex;align-items:center;
+  justify-content:center;flex-direction:column;gap:8px;
+}
+.proj-img-empty svg{width:36px;height:36px;stroke:rgba(255,255,255,.25);fill:none;stroke-width:1.2}
+.proj-img-empty span{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase}
+.proj-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(15,36,97,.85) 0%,transparent 55%);
+  display:flex;align-items:flex-end;padding:16px;
+  opacity:0;transition:opacity .3s;
+}
+.proj-card:hover .proj-overlay{opacity:1}
+.proj-overlay-actions{display:flex;gap:8px}
+.ov-btn{
+  padding:8px 14px;border-radius:var(--r);border:none;
+  font-family:var(--font);font-size:11px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;transition:all .18s;
+}
+.ov-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5}
+.ov-btn-white{background:#fff;color:var(--navy)}
+.ov-btn-white:hover{background:var(--lighter)}
+.ov-btn-blue{background:var(--blue);color:#fff}
+.ov-btn-blue:hover{background:var(--navy)}
+.cat-pill{
+  position:absolute;top:10px;left:10px;
+  padding:4px 10px;border-radius:100px;font-size:9.5px;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+}
+.featured-star{position:absolute;top:10px;right:10px;background:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px}
+/* Category pill colors */
+.cpill-plans{background:rgba(34,197,94,.9);color:#fff}
+.cpill-construction{background:rgba(26,86,219,.9);color:#fff}
+.cpill-conception{background:rgba(14,165,233,.9);color:#fff}
+.cpill-rehabilitation{background:rgba(245,158,11,.9);color:#fff}
+.cpill-industriel{background:rgba(139,92,246,.9);color:#fff}
+.cpill-residentiel{background:rgba(236,72,153,.9);color:#fff}
+.cpill-commercial{background:rgba(249,115,22,.9);color:#fff}
+.cpill-autre{background:rgba(107,114,128,.9);color:#fff}
+
+.proj-body{padding:18px;flex:1;display:flex;flex-direction:column}
+.proj-cat-label{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:5px}
+.proj-title{font-family:var(--font);font-weight:700;font-size:15.5px;color:var(--navy);margin-bottom:4px;line-height:1.3}
+.proj-meta{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.proj-desc{font-size:13px;color:var(--muted);line-height:1.65;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.proj-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.proj-price{font-family:var(--font);font-weight:800;font-size:17px;color:var(--navy)}
+.proj-price.has-price{color:var(--green)}
+.proj-views{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.proj-views svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.proj-cta{
+  padding:7px 14px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);
+  font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  transition:background .18s;display:flex;align-items:center;gap:5px;
+}
+.proj-cta svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5}
+.proj-cta:hover{background:var(--blue)}
+
+/* Loading / Empty */
+.loading-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.skel{background:linear-gradient(90deg,var(--light) 25%,var(--border) 50%,var(--light) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;aspect-ratio:4/3}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px}
+.empty-state svg{width:52px;height:52px;stroke:var(--border2);fill:none;stroke-width:1.2;margin:0 auto 16px}
+.empty-state h3{font-family:var(--font);font-weight:700;font-size:20px;color:var(--muted);margin-bottom:6px}
+.empty-state p{font-size:14px;color:var(--muted)}
+
+/* ════ PROJECT DETAIL MODAL ═══════════════════════════════════ */
+#projModal{
+  position:fixed;inset:0;z-index:2000;background:rgba(15,23,42,.75);
+  backdrop-filter:blur(8px);display:none;align-items:flex-start;
+  justify-content:center;padding:20px;overflow-y:auto;
+}
+#projModal.open{display:flex}
+.pm-box{
+  background:var(--white);border-radius:12px;width:100%;max-width:860px;
+  margin:auto;box-shadow:0 40px 100px rgba(0,0,0,.25);
+  animation:pmIn .3s ease;overflow:hidden;
+}
+@keyframes pmIn{from{opacity:0;transform:scale(.96) translateY(-12px)}to{opacity:1;transform:none}}
+.pm-header{position:relative}
+.pm-img{width:100%;aspect-ratio:16/7;object-fit:cover;background:linear-gradient(135deg,var(--navy),var(--navy2));display:block}
+.pm-img-empty{width:100%;aspect-ratio:16/7;background:linear-gradient(135deg,var(--navy),var(--navy2));display:flex;align-items:center;justify-content:center}
+.pm-img-empty svg{width:64px;height:64px;stroke:rgba(255,255,255,.2);fill:none;stroke-width:1}
+.pm-close{
+  position:absolute;top:14px;right:14px;width:34px;height:34px;
+  border-radius:50%;background:rgba(0,0,0,.5);border:none;
+  color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .18s;z-index:10;
+}
+.pm-close:hover{background:rgba(0,0,0,.8)}
+.pm-body{padding:32px 36px}
+.pm-cat{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.pm-title{font-family:var(--font);font-weight:800;font-size:28px;color:var(--navy);margin-bottom:10px;line-height:1.2}
+.pm-meta-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.pm-meta-item{display:flex;flex-direction:column;gap:2px}
+.pm-meta-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pm-meta-val{font-size:14px;font-weight:500;color:var(--navy)}
+.pm-desc{font-size:15px;line-height:1.8;color:var(--muted);margin-bottom:24px}
+.pm-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+.pm-gallery img{border-radius:4px;aspect-ratio:1;object-fit:cover;cursor:pointer;transition:transform .2s;border:1px solid var(--border)}
+.pm-gallery img:hover{transform:scale(1.03)}
+.pm-actions{display:flex;gap:10px;flex-wrap:wrap}
+.pm-btn{
+  padding:12px 24px;border-radius:var(--r);border:none;
+  font-family:var(--font);font-size:13px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;transition:all .18s;
+}
+.pm-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2}
+.pm-btn-primary{background:var(--navy);color:#fff;box-shadow:0 4px 16px rgba(15,36,97,.2)}
+.pm-btn-primary:hover{background:var(--blue)}
+.pm-btn-whatsapp{background:#25d366;color:#fff}
+.pm-btn-whatsapp:hover{background:#1da851}
+.pm-btn-ghost{background:var(--lighter);color:var(--navy);border:1.5px solid var(--border)}
+.pm-btn-ghost:hover{border-color:var(--navy)}
+.pm-price-box{
+  background:var(--lighter);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;
+}
+.pm-price-label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.pm-price-val{font-family:var(--font);font-weight:800;font-size:26px;color:var(--green)}
+
+/* ════ CONTACT ════════════════════════════════════════════════ */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;margin-top:60px}
+.ci-list{display:flex;flex-direction:column;gap:0}
+.ci{display:flex;align-items:flex-start;gap:14px;padding:20px 0;border-bottom:1px solid var(--border)}
+.ci:first-child{border-top:1px solid var(--border)}
+.ci-icon{width:42px;height:42px;flex-shrink:0;border-radius:var(--r);background:rgba(26,86,219,.06);border:1px solid rgba(26,86,219,.12);display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.ci-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.ci-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.ci-val{font-size:14.5px;font-weight:500;color:var(--navy)}
+.cform .fg{margin-bottom:14px}
+.cform label{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.cform input,.cform textarea,.cform select{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);
+  border-radius:var(--r);background:var(--white);color:var(--text);
+  font-family:var(--body);font-size:14px;outline:none;
+  transition:border-color .18s,box-shadow .18s;
+}
+.cform input:focus,.cform textarea:focus,.cform select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.08)}
+.cform textarea{resize:vertical;min-height:110px}
+.cform select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.cform select option{background:var(--white)}
+.cform-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn-submit{
+  width:100%;padding:13px;background:var(--navy);color:#fff;border:none;
+  border-radius:var(--r);font-family:var(--font);font-size:13.5px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;margin-top:4px;
+}
+.btn-submit svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2}
+.btn-submit:hover{background:var(--blue);transform:translateY(-1px)}
+.form-ok{display:none;margin-top:12px;padding:12px 16px;border:1.5px solid rgba(22,163,74,.3);border-radius:var(--r);background:rgba(22,163,74,.05);color:#166534;font-size:13px;font-weight:500;text-align:center}
+
+/* ════ FOOTER ═════════════════════════════════════════════════ */
+footer{background:var(--navy);padding:64px 5vw 28px}
+.footer-in{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08)}
+.f-brand-logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.f-logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--cyan));clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0% 50%);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-weight:800;font-size:14px;color:#fff}
+.f-logo-name{font-family:var(--font);font-weight:800;font-size:16px;color:#fff;letter-spacing:.03em}
+.f-logo-name em{color:#38bdf8;font-style:normal}
+.f-tagline{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;max-width:230px;margin-bottom:22px}
+.f-socials{display:flex;gap:8px}
+.f-soc{width:34px;height:34px;border:1px solid rgba(255,255,255,.12);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);transition:all .18s}
+.f-soc:hover{border-color:rgba(56,189,248,.5);color:#38bdf8;background:rgba(56,189,248,.07)}
+.f-soc svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.f-col h4{font-family:var(--font);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff;margin-bottom:18px}
+.f-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.f-col ul a{font-size:13px;color:rgba(255,255,255,.45);transition:color .18s}
+.f-col ul a:hover{color:#38bdf8}
+.f-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.f-copy{font-size:12px;color:rgba(255,255,255,.35)}
+.f-copy em{color:#38bdf8;font-style:normal}
+.f-legal{display:flex;gap:18px}
+.f-legal a{font-size:12px;color:rgba(255,255,255,.35);transition:color .18s}
+.f-legal a:hover{color:#fff}
+
+/* WhatsApp button */
+.wa-btn{
+  position:fixed;bottom:24px;right:24px;z-index:900;
+  width:52px;height:52px;border-radius:50%;
+  background:#25d366;color:#fff;border:none;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(37,211,102,.4);
+  transition:transform .2s,box-shadow .2s;font-size:24px;
+}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 8px 24px rgba(37,211,102,.55)}
+#scrolltop{
+  position:fixed;bottom:84px;right:26px;z-index:900;
+  width:40px;height:40px;border:1.5px solid var(--border);
+  background:var(--white);border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--navy);box-shadow:var(--shadow);
+  opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;
+}
+#scrolltop.show{opacity:1;transform:none}
+#scrolltop:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+#scrolltop svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* ════ RESPONSIVE ═════════════════════════════════════════════ */
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;gap:44px}
+  .hero-right{display:none}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:44px}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .proj-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+  .pm-body{padding:22px}
+  .pm-gallery{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:640px){
+  nav ul,nav>.nav-cta{display:none}
+  .burger{display:flex}
+  nav ul.open{
+    display:flex;flex-direction:column;
+    position:absolute;top:68px;left:0;right:0;
+    background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);padding:8px 0;z-index:999;
+  }
+  nav ul.open a{display:block;padding:13px 5vw;border-bottom:1px solid var(--border);font-size:14px}
+  .svc-grid,.proj-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .cform-row{grid-template-columns:1fr}
+  .pm-meta-row{gap:12px}
+  .pm-gallery{grid-template-columns:repeat(3,1fr)}
+  .hero-btns .btn-sec{display:none}
+  .loading-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="/" class="logo">
+    <div class="logo-mark">N</div>
+    <div class="logo-text">
+      <div class="logo-name">Nova<em>Tech</em></div>
+      <div class="logo-sub">Études et Conception</div>
+    </div>
+  </a>
+  <ul id="navLinks">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#realisations">Réalisations</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.5 12"/></svg>
+    Nous contacter
+  </button>
+  <button class="burger" id="burger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span></span>Bureau d'études — Istanbul, Turquie</div>
+      <h1 class="hero-h1">Plans &amp; Conceptions<br><em>Professionnels</em></h1>
+      <p class="hero-desc">Études techniques, plans d'exécution et conception 3D pour vos projets de construction — précision, rigueur et innovation à chaque étape.</p>
+      <div class="hero-btns">
+        <button class="btn-prim" onclick="document.getElementById('realisations').scrollIntoView({behavior:'smooth'})">
+          Voir nos plans
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-sec" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          Demander un devis
+        </button>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Plans certifiés</div>
+        <div class="trust-sep"></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Normes respectées</div>
+        <div class="trust-sep"></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Livraison rapide</div>
+      </div>
+    </div>
+    <div class="hero-right" id="heroRight">
+      <div class="hero-stat-row">
+        <div class="h-stat"><div class="h-stat-num"><span class="counter" data-target="120">0</span><em>+</em></div><div class="h-stat-label">Projets réalisés</div></div>
+        <div class="h-stat"><div class="h-stat-num"><span class="counter" data-target="6">0</span><em> ans</em></div><div class="h-stat-label">D'expérience</div></div>
+        <div class="h-stat"><div class="h-stat-num"><span class="counter" data-target="98">0</span><em>%</em></div><div class="h-stat-label">Satisfaction</div></div>
+        <div class="h-stat"><div class="h-stat-num"><span class="counter" data-target="15">0</span><em>+</em></div><div class="h-stat-label">Ingénieurs</div></div>
+      </div>
+      <!-- Dynamic featured projects preview -->
+      <div id="heroCards"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="reveal">
+    <div class="s-eyebrow">À propos</div>
+    <h2 class="s-title">L'ingénierie au service<br>de vos <em>projets</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="reveal reveal-d1" style="position:relative">
+      <div class="about-corner"></div>
+      <div class="about-img">
+        <svg viewBox="0 0 280 210" fill="none">
+          <rect x="40" y="35" width="130" height="155" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <rect x="58" y="55" width="20" height="20" fill="rgba(56,189,248,0.15)" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
+          <rect x="87" y="55" width="20" height="20" fill="none" stroke="rgba(56,189,248,0.3)" stroke-width="0.8"/>
+          <rect x="116" y="55" width="20" height="20" fill="rgba(56,189,248,0.15)" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
+          <rect x="58" y="84" width="20" height="20" fill="none" stroke="rgba(56,189,248,0.3)" stroke-width="0.8"/>
+          <rect x="87" y="84" width="20" height="20" fill="rgba(56,189,248,0.2)" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
+          <rect x="116" y="84" width="20" height="20" fill="none" stroke="rgba(56,189,248,0.3)" stroke-width="0.8"/>
+          <rect x="82" y="148" width="36" height="42" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.35)" stroke-width="0.8"/>
+          <rect x="180" y="75" width="55" height="115" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          <rect x="193" y="90" width="13" height="13" fill="rgba(56,189,248,0.12)" stroke="rgba(56,189,248,0.3)" stroke-width="0.7"/>
+          <rect x="213" y="90" width="13" height="13" fill="none" stroke="rgba(56,189,248,0.3)" stroke-width="0.7"/>
+          <line x1="20" y1="190" x2="260" y2="190" stroke="rgba(56,189,248,0.4)" stroke-width="1"/>
+          <line x1="40" y1="35" x2="40" y2="190" stroke="rgba(56,189,248,0.1)" stroke-width="0.5" stroke-dasharray="4 3"/>
+          <line x1="170" y1="35" x2="170" y2="190" stroke="rgba(56,189,248,0.1)" stroke-width="0.5" stroke-dasharray="4 3"/>
+        </svg>
+        <div class="about-img-badge"><strong>6+</strong><span>Années</span></div>
+      </div>
+    </div>
+    <div class="about-text reveal reveal-d2">
+      <div class="s-eyebrow">Notre mission</div>
+      <h3 style="font-family:var(--font);font-weight:800;font-size:24px;color:var(--navy);margin-bottom:16px;line-height:1.2">De l'idée à la réalisation concrète</h3>
+      <p>Chez NovaTech Études et Conception, nous mettons notre expertise au service de vos projets d'ingénierie et de conception. Notre équipe d'ingénieurs et de techniciens qualifiés travaille avec rigueur, créativité et innovation afin de transformer vos idées en solutions concrètes, modernes et performantes.</p>
+      <p>Chaque projet est traité individuellement — nous intégrons les meilleures technologies et les normes les plus exigeantes pour garantir des résultats durables.</p>
+      <ul class="checklist">
+        <li>
+          <div class="chk-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="chk-text"><strong>Plans techniques certifiés</strong><span>Conformes aux normes de construction en vigueur</span></div>
+        </li>
+        <li>
+          <div class="chk-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="chk-text"><strong>Conception 3D & modélisation BIM</strong><span>Visualisation précise avant la construction</span></div>
+        </li>
+        <li>
+          <div class="chk-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="chk-text"><strong>Livraison rapide & suivi complet</strong><span>Délais respectés et accompagnement à chaque étape</span></div>
+        </li>
+      </ul>
+      <button class="btn-prim" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+        Demander un devis gratuit
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section-full section-alt">
+  <div class="section-inner">
+    <div class="reveal" style="margin-bottom:0">
+      <div class="s-eyebrow">Nos expertises</div>
+      <h2 class="s-title">Services <em>complets</em></h2>
+      <p class="s-sub">De l'étude initiale à la livraison finale — chaque phase est traitée avec précision.</p>
+    </div>
+    <div class="svc-grid reveal">
+      <div class="svc-card"><div class="svc-n">01</div><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div><h3>Plans Techniques</h3><p>Plans d'exécution détaillés, coupes, façades et détails constructifs conformes aux normes en vigueur.</p></div>
+      <div class="svc-card"><div class="svc-n">02</div><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><h3>Conception 3D</h3><p>Modélisation BIM, visualisation architecturale et maquettes numériques pour une réalisation sans surprise.</p></div>
+      <div class="svc-card"><div class="svc-n">03</div><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><h3>Études Techniques</h3><p>Analyses de faisabilité, calculs structuraux, études de sol et dimensionnement des ouvrages.</p></div>
+      <div class="svc-card"><div class="svc-n">04</div><div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Sécurité & Conformité</h3><p>Audit des risques, veille réglementaire et vérification des normes de sécurité des chantiers.</p></div>
+      <div class="svc-card"><div class="svc-n">05</div><div class="svc-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></div><h3>Suivi de Chantier</h3><p>Coordination des équipes, contrôle qualité et gestion des délais pour un avancement optimal.</p></div>
+      <div class="svc-card"><div class="svc-n">06</div><div class="svc-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h3>Conseil & Optimisation</h3><p>Optimisation des coûts, réduction des délais et solutions innovantes pour maximiser vos investissements.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RÉALISATIONS -->
+<section id="realisations" class="section">
+  <div class="real-header reveal">
+    <div>
+      <div class="s-eyebrow">Portfolio</div>
+      <h2 class="s-title">Nos <em>Réalisations</em></h2>
+    </div>
+  </div>
+  <div class="filters reveal" id="filtersBar"></div>
+  <div class="proj-grid" id="projGrid" style="margin-top:24px">
+    <!-- Loading skeletons -->
+    <div class="loading-grid">
+      <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:36px" id="loadMoreWrap" class="reveal"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section-full section-alt">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="s-eyebrow">Contact</div>
+      <h2 class="s-title">Démarrons votre <em>projet</em></h2>
+      <p class="s-sub">Consultation gratuite — réponse sous 24h.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal reveal-d1">
+        <div class="ci-list">
+          <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="ci-label">Adresse</div><div class="ci-val">Istanbul, Turquie</div></div></div>
+          <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.5 12a19.79 19.79 0 01-3-8.64A2 2 0 012.48 1.5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.46a16 16 0 006.29 6.29l1.32-1.32a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.77 2.04z"/></svg></div><div><div class="ci-label">Téléphone</div><div class="ci-val">+90 505 459 64 58</div></div></div>
+          <div class="ci"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="ci-label">Email</div><div class="ci-val">contact@novatech-ec.com</div></div></div>
+          <div class="ci" style="border-bottom:none"><div class="ci-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="ci-label">Horaires</div><div class="ci-val">Lun–Ven : 08h00 – 18h00</div></div></div>
+        </div>
+      </div>
+      <div class="cform reveal reveal-d2">
+        <form id="contactForm">
+          <div class="cform-row">
+            <div class="fg"><label>Nom complet</label><input type="text" name="name" placeholder="Votre nom" required></div>
+            <div class="fg"><label>Email</label><input type="email" name="email" placeholder="email@exemple.com" required></div>
+          </div>
+          <div class="fg"><label>Téléphone</label><input type="tel" name="phone" placeholder="+90 5XX XXX XX XX"></div>
+          <div class="fg"><label>Type de service</label>
+            <select name="service">
+              <option value="">Sélectionner...</option>
+              <option>Plans techniques</option><option>Conception 3D</option>
+              <option>Études techniques</option><option>Suivi de chantier</option>
+              <option>Sécurité & Conformité</option><option>Autre</option>
+            </select>
+          </div>
+          <div class="fg"><label>Message</label><textarea name="message" placeholder="Décrivez votre projet..." required></textarea></div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            Envoyer le message
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+          <div class="form-ok" id="formOk">✓ Message envoyé ! Nous vous répondrons sous 24h.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-in">
+    <div class="footer-top">
+      <div>
+        <div class="f-brand-logo"><div class="f-logo-icon">N</div><div class="f-logo-name">Nova<em>Tech</em></div></div>
+        <div style="font-size:9px;letter-spacing:.14em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:12px">Études et Conception</div>
+        <p class="f-tagline">Plans techniques professionnels et études d'ingénierie depuis Istanbul.</p>
+        <div class="f-socials">
+          <a href="#" class="f-soc"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="f-soc"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" class="f-soc"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+          <a href="#" class="f-soc"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        </div>
+      </div>
+      <div class="f-col"><h4>Navigation</h4><ul><li><a href="/">Accueil</a></li><li><a href="#about">À propos</a></li><li><a href="#services">Services</a></li><li><a href="#realisations">Réalisations</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div class="f-col"><h4>Services</h4><ul><li><a href="#services">Plans techniques</a></li><li><a href="#services">Conception 3D</a></li><li><a href="#services">Études techniques</a></li><li><a href="#services">Suivi de chantier</a></li><li><a href="#services">Sécurité</a></li></ul></div>
+      <div class="f-col"><h4>Contact</h4><ul><li><a href="tel:+905054596458">+90 505 459 64 58</a></li><li><a href="mailto:contact@novatech-ec.com">contact@novatech-ec.com</a></li><li><a href="#">Istanbul, Turquie</a></li><li><a href="/admin">⚙ Espace Admin</a></li></ul></div>
+    </div>
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 <em>NovaTech Études et Conception</em>. Tous droits réservés.</p>
+      <div class="f-legal"><a href="#">Mentions légales</a><a href="#">Confidentialité</a></div>
+    </div>
+  </div>
+</footer>
+
+<button class="wa-btn" onclick="window.open('https://wa.me/905054596458?text=Bonjour%20NovaTech%2C%20je%20souhaite%20un%20devis.','_blank')" title="WhatsApp">💬</button>
+<div id="scrolltop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg></div>
+
+<!-- PROJECT DETAIL MODAL -->
+<div id="projModal">
+  <div class="pm-box" id="pmBox">
+    <div class="pm-header">
+      <div id="pmImgWrap"></div>
+      <button class="pm-close" onclick="closeProjModal()">×</button>
+    </div>
+    <div class="pm-body">
+      <div class="pm-cat" id="pmCat"></div>
+      <h2 class="pm-title" id="pmTitle"></h2>
+      <div id="pmPriceBox"></div>
+      <div class="pm-meta-row" id="pmMeta"></div>
+      <p class="pm-desc" id="pmDesc"></p>
+      <div class="pm-gallery" id="pmGallery"></div>
+      <div class="pm-actions" id="pmActions"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── API ──────────────────────────────────────────────────────────────
+const API = '';
+async function api(endpoint, options = {}) {
+  const res = await fetch(API + endpoint, options);
+  return res.json();
+}
+
+// ─── State ────────────────────────────────────────────────────────────
+let allProjects = [];
+let categories = [];
+let currentCat = 'all';
+let currentProject = null;
+const WHATSAPP = '905054596458';
+
+// ─── Init ─────────────────────────────────────────────────────────────
+async function init() {
+  await Promise.all([loadCategories(), loadProjects()]);
+  loadHeroCards();
+}
+
+// ─── Load categories ──────────────────────────────────────────────────
+async function loadCategories() {
+  try {
+    const r = await api('/api/categories');
+    categories = r.data || [];
+    renderFilters();
+  } catch { }
+}
+
+function renderFilters() {
+  const total = allProjects.length;
+  let html = `<button class="flt ${currentCat==='all'?'active':''}" onclick="filterCat('all',this)">Tous <span class="n">${total}</span></button>`;
+  categories.forEach(c => {
+    if (c.count > 0) {
+      html += `<button class="flt ${currentCat===c.id?'active':''}" onclick="filterCat('${c.id}',this)">${c.label} <span class="n">${c.count}</span></button>`;
+    }
+  });
+  document.getElementById('filtersBar').innerHTML = html;
+}
+
+// ─── Load projects ────────────────────────────────────────────────────
+async function loadProjects(cat = 'all') {
+  document.getElementById('projGrid').innerHTML = '<div class="loading-grid"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>';
+  try {
+    const params = cat !== 'all' ? `?category=${cat}` : '';
+    const r = await api(`/api/projects${params}`);
+    allProjects = r.data || [];
+    renderProjects(allProjects);
+    renderFilters();
+  } catch {
+    document.getElementById('projGrid').innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg><h3>Erreur de chargement</h3><p>Vérifiez que le serveur est démarré.</p></div>';
+  }
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.flt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadProjects(cat);
+}
+
+function catCls(id) {
+  const map = { plans:'cpill-plans', construction:'cpill-construction', conception:'cpill-conception', rehabilitation:'cpill-rehabilitation', industriel:'cpill-industriel', residentiel:'cpill-residentiel', commercial:'cpill-commercial', autre:'cpill-autre' };
+  return map[id] || 'cpill-autre';
+}
+function catLabel(id) {
+  const c = categories.find(x => x.id === id);
+  return c ? c.label : id;
+}
+
+function renderProjects(projects) {
+  if (!projects.length) {
+    document.getElementById('projGrid').innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><h3>Aucun projet pour le moment</h3><p>Revenez bientôt ou changez de catégorie.</p></div>';
+    return;
+  }
+  document.getElementById('projGrid').innerHTML = projects.map(p => `
+    <div class="proj-card" onclick="openProject('${p.id}')">
+      <div class="proj-img">
+        ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : `<div class="proj-img-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Plan</span></div>`}
+        <span class="cat-pill ${catCls(p.category)}">${catLabel(p.category)}</span>
+        ${p.featured ? '<span class="featured-star">⭐</span>' : ''}
+        <div class="proj-overlay">
+          <div class="proj-overlay-actions">
+            <button class="ov-btn ov-btn-white" onclick="event.stopPropagation();openProject('${p.id}')">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              Voir détails
+            </button>
+            <button class="ov-btn ov-btn-blue" onclick="event.stopPropagation();contactAbout('${p.title}')">
+              Devis
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-cat-label">${catLabel(p.category)}</div>
+        <div class="proj-title">${p.title}</div>
+        <div class="proj-meta">${[p.location, p.year].filter(Boolean).join(' · ')}</div>
+        ${p.description ? `<div class="proj-desc">${p.description}</div>` : ''}
+        <div class="proj-footer">
+          <div class="proj-price ${p.price ? 'has-price' : ''}">${p.price ? `${p.price.toLocaleString()} ${p.currency||'EUR'}` : 'Sur devis'}</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="proj-views"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>${p.views||0}</div>
+            <button class="proj-cta" onclick="event.stopPropagation();openProject('${p.id}')"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ─── Hero cards ───────────────────────────────────────────────────────
+function loadHeroCards() {
+  const featured = allProjects.filter(p => p.featured).slice(0, 2);
+  const toShow = featured.length ? featured : allProjects.slice(0, 2);
+  if (!toShow.length) return;
+  document.getElementById('heroCards').innerHTML = toShow.map(p => `
+    <div class="hero-preview-card" onclick="openProject('${p.id}')" style="cursor:pointer">
+      <div class="hpc-img">
+        ${p.image ? `<img src="${p.image}" alt="" style="width:90px;height:70px;object-fit:cover">` : `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`}
+      </div>
+      <div class="hpc-body">
+        <div class="hpc-cat">${catLabel(p.category)}</div>
+        <div class="hpc-title">${p.title}</div>
+        <div class="hpc-price">${p.price ? `${p.price.toLocaleString()} ${p.currency||'EUR'}` : 'Sur devis'}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ─── Project detail modal ─────────────────────────────────────────────
+async function openProject(id) {
+  try {
+    const r = await api(`/api/projects/${id}`);
+    currentProject = r.data;
+    api(`/api/projects/${id}/view`, { method: 'PATCH' });
+    showProjModal(currentProject);
+  } catch { }
+}
+
+function showProjModal(p) {
+  const modal = document.getElementById('projModal');
+  // Image
+  document.getElementById('pmImgWrap').innerHTML = p.image
+    ? `<img class="pm-img" src="${p.image}" alt="${p.title}">`
+    : `<div class="pm-img-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
+
+  document.getElementById('pmCat').textContent = catLabel(p.category);
+  document.getElementById('pmTitle').textContent = p.title;
+
+  // Price
+  document.getElementById('pmPriceBox').innerHTML = `
+    <div class="pm-price-box">
+      <div><div class="pm-price-label">Prix</div><div class="pm-price-val">${p.price ? `${p.price.toLocaleString()} ${p.currency||'EUR'}` : 'Sur devis'}</div></div>
+      ${p.pdf ? `<a href="${p.pdf}" target="_blank" class="pm-btn pm-btn-ghost"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Voir PDF</a>` : ''}
+    </div>`;
+
+  // Meta
+  const metas = [
+    p.location && { label: 'Localisation', val: p.location },
+    p.year && { label: 'Année', val: p.year },
+    p.surface && { label: 'Surface', val: p.surface },
+    p.client && { label: 'Client', val: p.client },
+  ].filter(Boolean);
+  document.getElementById('pmMeta').innerHTML = metas.map(m => `<div class="pm-meta-item"><div class="pm-meta-label">${m.label}</div><div class="pm-meta-val">${m.val}</div></div>`).join('');
+
+  document.getElementById('pmDesc').textContent = p.description || '';
+
+  // Gallery
+  document.getElementById('pmGallery').innerHTML = (p.gallery || []).length
+    ? p.gallery.map(g => `<img src="${g}" alt="" onclick="window.open('${g}','_blank')">`).join('')
+    : '';
+
+  // Actions
+  document.getElementById('pmActions').innerHTML = `
+    <button class="pm-btn pm-btn-primary" onclick="contactAbout('${p.title}')">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Demander un devis
+    </button>
+    <button class="pm-btn pm-btn-whatsapp" onclick="whatsappAbout('${p.title}')">
+      💬 WhatsApp
+    </button>
+    ${p.pdf ? `<a href="${p.pdf}" target="_blank" class="pm-btn pm-btn-ghost"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Télécharger PDF</a>` : ''}`;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjModal() {
+  document.getElementById('projModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function contactAbout(title) {
+  closeProjModal();
+  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+}
+function whatsappAbout(title) {
+  window.open(`https://wa.me/${WHATSAPP}?text=Bonjour%20NovaTech%2C%20je%20suis%20intéressé%20par%20le%20projet%20%22${encodeURIComponent(title)}%22.%20Pouvez-vous%20me%20donner%20plus%20d%27informations%20%3F`, '_blank');
+}
+
+document.getElementById('projModal').addEventListener('click', e => { if (e.target.id === 'projModal') closeProjModal() });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProjModal() });
+
+// ─── Contact form ─────────────────────────────────────────────────────
+document.getElementById('contactForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const data = Object.fromEntries(new FormData(e.target));
+  btn.textContent = 'Envoi...'; btn.disabled = true;
+  try {
+    const r = await api('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (r.success) {
+      btn.textContent = '✓ Envoyé !';
+      document.getElementById('formOk').style.display = 'block';
+      e.target.reset();
+    } else { btn.textContent = 'Réessayer'; btn.disabled = false; }
+  } catch {
+    btn.textContent = 'Réessayer'; btn.disabled = false;
+  }
+});
+
+// ─── Nav + Scroll ─────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
+  document.getElementById('scrolltop').classList.toggle('show', scrollY > 400);
+});
+
+// ─── Reveal ───────────────────────────────────────────────────────────
+const ro = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on') }), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// ─── Counters ─────────────────────────────────────────────────────────
+function animCount(el) {
+  const t = +el.dataset.target, d = 1600, s = performance.now();
+  (function f(n) { const p = Math.min((n - s) / d, 1); el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * t); if (p < 1) requestAnimationFrame(f); else el.textContent = t; })(s);
+}
+const co = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { animCount(e.target); co.unobserve(e.target) } }), { threshold: .5 });
+document.querySelectorAll('.counter').forEach(el => co.observe(el));
+
+// ─── Start ────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{
+  "projects": [
+    {
+      "id": "mpalbsv9fo713",
+      "title": "Plan Villa 3 Chambres",
+      "category": "plans",
+      "description": "asdnm",
+      "location": "djibouti",
+      "year": "2026",
+      "surface": "250",
+      "client": "jhfe",
+      "price": 5000,
+      "currency": "EUR",
+      "featured": false,
+      "tags": [],
+      "image": "/uploads/1779071652834-927f0n3tkkt.jpg",
+      "gallery": [],
+      "pdf": null,
+      "views": 1,
+      "createdAt": 1779071652837,
+      "updatedAt": 1779071652837
+    }
+  ],
+  "categories": [
+    {
+      "id": "plans",
+      "label": "Plans Techniques",
+      "color": "#22c55e",
+      "icon": "📐"
+    },
+    {
+      "id": "construction",
+      "label": "Construction",
+      "color": "#1a56db",
+      "icon": "🏗️"
+    },
+    {
+      "id": "conception",
+      "label": "Conception 3D",
+      "color": "#0ea5e9",
+      "icon": "🖥️"
+    },
+    {
+      "id": "rehabilitation",
+      "label": "Réhabilitation",
+      "color": "#f59e0b",
+      "icon": "🔧"
+    },
+    {
+      "id": "industriel",
+      "label": "Industriel",
+      "color": "#8b5cf6",
+      "icon": "🏭"
+    },
+    {
+      "id": "residentiel",
+      "label": "Résidentiel",
+      "color": "#ec4899",
+      "icon": "🏠"
+    },
+    {
+      "id": "commercial",
+      "label": "Commercial",
+      "color": "#f97316",
+      "icon": "🏢"
+    },
+    {
+      "id": "autre",
+      "label": "Autre",
+      "color": "#6b7280",
+      "icon": "📁"
+    }
+  ],
+  "settings": {
+    "companyName": "NovaTech Études et Conception",
+    "tagline": "Votre expertise en ingénierie et conception",
+    "phone": "+90 505 459 64 58",
+    "email": "contact@novatech-ec.com",
+    "address": "Istanbul, Turquie",
+    "whatsapp": "+905054596458",
+    "heroTitle": "Plans & Conceptions\nProfessionnels",
+    "heroSub": "Études techniques, plans d'exécution et conception 3D pour vos projets de construction.",
+    "aboutText": "Chez NovaTech Études et Conception, nous mettons notre expertise au service de vos projets d'ingénierie et de conception. Notre équipe d'ingénieurs et de techniciens qualifiés travaille avec rigueur, créativité et innovation afin de transformer vos idées en solutions concrètes, modernes et performantes.",
+    "stats": {
+      "projects": 120,
+      "years": 6,
+      "satisfaction": 98,
+      "experts": 15
+    }
+  }
+}
