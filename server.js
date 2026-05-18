@@ -3,8 +3,25 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const session = require('express-session');
+const bcrypt = require('bcryptjs');
+const cookieParser = require('cookie-parser');
+const ADMIN_USER = 'admin';
 
+const ADMIN_PASSWORD_HASH = bcrypt.hashSync('novatech123', 10);
 const app = express();
+app.use(cookieParser());
+
+app.use(session({
+  secret: 'novatech_secret_key_2026',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}));
 const PORT = process.env.PORT || 3000;
 
 // ── Middleware ─────────────────────────────────────────────────────────

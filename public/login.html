@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NovaTech Login</title>
+</head>
+
+<body style="font-family:sans-serif;padding:40px">
+
+<h2>Admin Login</h2>
+
+<form id="loginForm">
+
+<input type="text"
+id="username"
+placeholder="Username"
+required>
+
+<br><br>
+
+<input type="password"
+id="password"
+placeholder="Password"
+required>
+
+<br><br>
+
+<button type="submit">
+Login
+</button>
+
+</form>
+
+<script>
+
+document
+.getElementById('loginForm')
+.addEventListener('submit', async (e) => {
+
+e.preventDefault();
+
+const res = await fetch('/api/login', {
+
+method: 'POST',
+
+headers: {
+'Content-Type': 'application/json'
+},
+
+body: JSON.stringify({
+
+username:
+document.getElementById('username').value,
+
+password:
+document.getElementById('password').value
+
+})
+
+});
+
+if (res.ok) {
+
+window.location.href = '/admin.html';
+
+} else {
+
+alert('Invalid login');
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
