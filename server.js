@@ -219,7 +219,6 @@ app.get('/api/projects', (req, res) => {
 // CREATE
 app.post(
   '/api/projects',
-  requireAuth,
   upload.fields([
     { name: 'image', maxCount: 1 },
     { name: 'gallery', maxCount: 10 },
