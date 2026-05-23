@@ -369,7 +369,7 @@ body{font-family:var(--body);background:var(--navy);color:var(--w);display:flex;
       <div class="fg">
         <label>Image principale</label>
         <div class="upload-zone" id="uploadZone">
-          <input type="file" id="imgFile" accept="image/*" onchange="handleImg(event)">
+        <input type="file" id="imgFile" name="image" accept="image/*" onchange="handleImg(event)">
           <div class="upload-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
           <div class="upload-t">Cliquer ou glisser une image</div>
           <div class="upload-s">JPG, PNG, WEBP — max 10 Mo</div>
@@ -383,7 +383,7 @@ body{font-family:var(--body);background:var(--navy);color:var(--w);display:flex;
       <div class="fg">
         <label>PDF du plan <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></label>
         <div class="upload-zone" style="padding:14px">
-          <input type="file" id="pdfFile" accept=".pdf">
+         <input type="file" id="pdfFile" name="pdf" accept=".pdf">
           <div style="display:flex;align-items:center;gap:10px">
             <div class="upload-icon" style="margin:0;flex-shrink:0"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
             <div><div class="upload-t" style="margin-bottom:0" id="pdfName">Ajouter un fichier PDF</div><div class="upload-s">Téléchargeable par les clients</div></div>
@@ -394,7 +394,7 @@ body{font-family:var(--body);background:var(--navy);color:var(--w);display:flex;
       <div class="fg">
         <label>Images supplémentaires</label>
         <div class="multi-grid" id="multiGrid">
-          <div class="add-more"><input type="file" accept="image/*" multiple onchange="handleMulti(event)"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+         <input type="file" name="gallery" accept="image/*" multiple onchange="handleMulti(event)"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
         </div>
       </div>
 
@@ -663,47 +663,99 @@ document.getElementById('pdfFile').addEventListener('change', function() {
 });
 
 // ─── Save project ─────────────────────────────────────────────
+
 async function saveProject() {
-  const title=document.getElementById('fTitle').value.trim();
-  const cat=document.getElementById('fCat').value;
-  if(!title){toast('Le titre est obligatoire','err');document.getElementById('fTitle').focus();return}
-  if(!cat){toast('Choisissez une catégorie','err');document.getElementById('fCat').focus();return}
 
-  const editId=document.getElementById('editId').value;
-  const fd=new FormData();
-  fd.append('title',title);
-  fd.append('category',cat);
-  fd.append('location',document.getElementById('fLoc').value.trim());
-  fd.append('year',document.getElementById('fYear').value.trim());
-  fd.append('surface',document.getElementById('fSurf').value.trim());
-  fd.append('client',document.getElementById('fClient').value.trim());
-  fd.append('description',document.getElementById('fDesc').value.trim());
-  fd.append('price',document.getElementById('fPrice').value||'');
-  fd.append('currency',document.getElementById('fCurrency').value);
-  fd.append('featured',document.getElementById('fFeat').checked);
+  const title = document.getElementById('fTitle').value.trim();
+  const cat = document.getElementById('fCat').value;
 
-  const imgFile=document.getElementById('imgFile').files[0];
-  if(imgFile) fd.append('image',imgFile);
-  const pdfFile=document.getElementById('pdfFile').files[0];
-  if(pdfFile) fd.append('pdf',pdfFile);
-  extraFiles.forEach(f=>fd.append('gallery',f));
+  if (!title) {
+    toast('Le titre est obligatoire', 'err');
+    return;
+  }
 
-  const saveTxt=document.getElementById('saveTxt');
-  saveTxt.textContent='Enregistrement...';
+  if (!cat) {
+    toast('Choisissez une catégorie', 'err');
+    return;
+  }
+
+  const editId = document.getElementById('editId').value;
+
+  const fd = new FormData();
+
+  fd.append('title', title);
+  fd.append('category', cat);
+  fd.append('location', document.getElementById('fLoc').value);
+  fd.append('year', document.getElementById('fYear').value);
+  fd.append('surface', document.getElementById('fSurf').value);
+  fd.append('client', document.getElementById('fClient').value);
+  fd.append('description', document.getElementById('fDesc').value);
+  fd.append('price', document.getElementById('fPrice').value);
+  fd.append('currency', document.getElementById('fCurrency').value);
+  fd.append('featured', document.getElementById('fFeat').checked);
+
+  const img = document.getElementById('imgFile').files[0];
+  if (img) fd.append('image', img);
+
+  const pdf = document.getElementById('pdfFile').files[0];
+  if (pdf) fd.append('pdf', pdf);
+
+  extraFiles.forEach(file => {
+    fd.append('gallery', file);
+  });
 
   try {
-    const method=editId?'PUT':'POST';
-    const url=editId?`/api/projects/${editId}`:'/api/projects';
-    const r=await fetch(API+url,{method,body:fd});
-    const data=await r.json();
-    if(data.success){
-      toast(editId?'Projet mis à jour ✓':'Projet ajouté ✓');
+
+    const method = editId ? 'PUT' : 'POST';
+
+    const url = editId
+      ? `/api/projects/${editId}`
+      : `/api/projects`;
+
+    const response = await fetch(url, {
+      method,
+      body: fd
+    });
+
+    const text = await response.text();
+
+    console.log(text);
+
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error('INVALID JSON:', text);
+      toast('Erreur serveur JSON', 'err');
+      return;
+    }
+
+    if (data.success) {
+
+      toast('Projet enregistré ✓');
+
       closeModal();
-      await loadProjects();
-    } else { toast(data.message||'Erreur','err'); saveTxt.textContent=editId?'Mettre à jour':'Enregistrer'; }
-  } catch(e){ toast('Erreur: '+e.message,'err'); saveTxt.textContent=editId?'Mettre à jour':'Enregistrer'; }
+
+      loadProjects();
+
+    } else {
+
+      toast(data.message || 'Erreur', 'err');
+
+    }
+
+  } catch (err) {
+
+    console.error(err);
+
+    toast(err.message, 'err');
+
+  }
+
 }
 
+ 
 // ─── Delete ───────────────────────────────────────────────────
 let pendingDel=null;
 function confirmDel(id,title){

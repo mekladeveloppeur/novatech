@@ -1,4 +1,7 @@
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
@@ -7,9 +10,30 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-
+cloudinary.config({
+  cloud_name: 'dfcjv30bh',
+  api_key: '161767456973298',
+  api_secret: 'F6dGPvJULUje_teVz0d_jTJlMF8'
+});
 const ADMIN_USER = 'mekla';
 const ADMIN_PASSWORD = '7793482703';
+
+const PORT = process.env.PORT || 3000;
+
+const MONGO_URI = 'mongodb+srv://aichahousseinmed01_db_user:mekla123@mekla.15tlhny.mongodb.net/?retryWrites=true&w=majority&appName=mekla';
+
+mongoose.connect(MONGO_URI, {
+  tls: true,
+  tlsAllowInvalidCertificates: true
+})
+
+.then(() => {
+  console.log('✅ MongoDB Connected');
+})
+
+.catch(err => {
+  console.log('MongoDB Error:', err);
+});
 
 app.use(cookieParser());
 
@@ -23,8 +47,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24
   }
 }));
-
-const PORT = process.env.PORT || 3000;
 
 // ── Middleware ─────────────────────────────────
 app.use(cors());
@@ -97,40 +119,13 @@ function genId() {
 }
 
 // ── Upload ─────────────────────────────────────
-const storage = multer.diskStorage({
-
-  destination: (req, file, cb) => {
-
-    const dir = path.join(
-      __dirname,
-      'public/uploads'
-    );
-
-    if (!fs.existsSync(dir)) {
-
-      fs.mkdirSync(dir, {
-        recursive: true
-      });
-
-    }
-
-    cb(null, dir);
-
-  },
-
-  filename: (req, file, cb) => {
-
-    const ext = path.extname(file.originalname);
-
-    cb(
-      null,
-      Date.now() + ext
-    );
-
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'novatech',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'pdf']
   }
-
 });
-
 const upload = multer({
   storage
 });
@@ -220,48 +215,101 @@ app.get('/api/projects', (req, res) => {
 
 });
 
+
 // CREATE
 app.post(
   '/api/projects',
   requireAuth,
-  upload.single('image'),
+  upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'gallery', maxCount: 10 },
+    { name: 'pdf', maxCount: 1 }
+  ]),
 
   (req, res) => {
 
-    const db = readDB();
+    try {
 
-    const project = {
+      const db = readDB();
 
-      id: genId(),
+      const project = {
 
-      title: req.body.title || '',
+        id: genId(),
 
-      category: req.body.category || '',
+        title: req.body.title || '',
 
-      description:
-      req.body.description || '',
+        category: req.body.category || '',
 
-      image:
-      req.file ?
-      `/uploads/${req.file.filename}`
-      : null,
+        description:
+        req.body.description || '',
 
-      createdAt: Date.now()
+        location:
+        req.body.location || '',
 
-    };
+        year:
+        req.body.year || '',
 
-    db.projects.unshift(project);
+        surface:
+        req.body.surface || '',
 
-    writeDB(db);
+        client:
+        req.body.client || '',
 
-    res.json({
-      success: true,
-      data: project
-    });
+        price:
+        req.body.price || '',
+
+        currency:
+        req.body.currency || 'EUR',
+
+        featured:
+        req.body.featured || false,
+
+        image:
+        req.files?.image
+        ? `/uploads/${req.files.image[0].filename}`
+        : null,
+
+        gallery:
+        req.files?.gallery
+        ? req.files.gallery.map(file =>
+            `/uploads/${file.filename}`
+          )
+        : [],
+
+        pdf:
+        req.files?.pdf
+        ? `/uploads/${req.files.pdf[0].filename}`
+        : null,
+
+        createdAt: Date.now()
+
+      };
+
+      db.projects.unshift(project);
+
+      writeDB(db);
+
+      res.json({
+        success: true,
+        data: project
+      });
+
+    } catch (err) {
+
+      console.log("❌ SERVER ERROR:");
+      console.log(err);
+
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+
+    }
 
   }
 
 );
+
 
 // UPDATE
 app.put(
