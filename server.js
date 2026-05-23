@@ -313,7 +313,6 @@ app.post(
 // UPDATE
 app.put(
   '/api/projects/:id',
-  requireAuth,
   upload.single('image'),
 
   (req, res) => {
