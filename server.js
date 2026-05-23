@@ -264,16 +264,14 @@ app.post(
         req.body.featured || false,
 
         image:
-        req.files?.image
-        ? `/uploads/${req.files.image[0].filename}`
-        : null,
+          req.files?.image
+    ? req.files.image[0].path
+    : null,
 
         gallery:
-        req.files?.gallery
-        ? req.files.gallery.map(file =>
-            `/uploads/${file.filename}`
-          )
-        : [],
+ req.files?.gallery
+    ? req.files.gallery.map(file => file.path)
+    : [],
 
         pdf:
         req.files?.pdf
